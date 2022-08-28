@@ -1,6 +1,5 @@
 from typing import Union
-from xmlrpc.client import boolean
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -18,8 +17,8 @@ def read_root():
 
 
 @app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+def read_item(item_id: int, q: Union[str, None] = Query(None, max_length=32)):
+    return {"item_id": item_id, "name": q}
 
 
 @app.put("/items/{item_id}")
